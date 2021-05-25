@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "serve": "concurrently \"nodemon invoice-server/bin/www\" \"cd invoice-client/; npm run serve\""
+    },
+    "devDependencies": {
+        "concurrently": "^6.1.0",
+        "nodemon": "^2.0.7"
+    }
+}
