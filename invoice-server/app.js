@@ -5,7 +5,8 @@ var logger = require('morgan');
 const cors = require('cors');
 
 var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
+var invoiceRouter = require('./routes/invoiceAPI');
+var wishlistRouter = require('./routes/wishlistAPI');
 
 var app = express();
 
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/', indexRouter);
-app.use('/api', apiRouter);
+app.use('/api', invoiceRouter);
+app.use('/api', wishlistRouter);
 
 module.exports = app;

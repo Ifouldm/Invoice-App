@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;700&display=swap');
+
+:root {
+    --VeryDarkBlue: #141625; /* Background */
+    --DarkBlue: #1f213a; /* Secondary Background */
+    --DarkBlueEmphasis: #252946; /* Emphasis */
+    --White: #ffffff;
+    --LightGrey: #adb0c0; /* Text Colour */
+    --Grey: #838590; /* Text Colour */
+    --PurpleAccent: #7b5cf9; /* Buttons etc */
+    --GreenDone: #369a85; /* Buttons etc */
+    --AmberPending: #8b552c; /* Buttons etc */
+    --RedWarning: #ed5659; /* Buttons etc */
+    --AlmostBlack: #0b0e15;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    background-color: var(--VeryDarkBlue);
+    font-family: 'Spartan', sans-serif;
+    color: var(--Grey);
+    min-height: 100%;
+}
+
+.button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.3rem;
+    padding: 1rem;
+    background-color: var(--PurpleAccent);
+    color: var(--White);
+    font-weight: 700;
+    border-radius: 2rem;
+    text-decoration: none;
+    cursor: pointer;
+    animation-name: grow;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+    line-height: 1;
+}
+
+.button.add {
+    padding-left: 4rem;
+}
+
+.button.add::before {
+    position: absolute;
+    content: '+';
+    top: 0.4rem;
+    left: 0.4rem;
+    bottom: 0.4rem;
+    width: 2.6rem;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--White);
+    color: var(--PurpleAccent);
+}
+
+.button.muted {
+    background-color: var(--DarkBlue);
+}
+
+.button.dark {
+    background-color: var(--VeryDarkBlue);
+}
+
+.button.warning {
+    background-color: var(--RedWarning);
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0);
+    }
+
+    90% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+form {
+    transform-origin: top left;
+    animation-name: slide-right;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes slide-right {
+    0% {
+        transform: scaleX(0);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+label {
+    margin-bottom: 0.3rem;
+}
+
+input {
+    padding: 0.8rem;
+    border-radius: 0.3rem;
+    border: none;
+    color: var(--White);
+    background-color: var(--DarkBlue);
+    font-weight: 700;
+}

@@ -32,4 +32,17 @@ const InvoiceSchema = new mongoose.Schema({
 
 const Invoice = mongoose.model('Invoices', InvoiceSchema);
 
-module.exports = { Invoice };
+const WishListSchema = new mongoose.Schema({
+    itemName: String,
+    description: String,
+    imageUrl: String,
+    link: String,
+    dateAdded: { type: Date, default: Date.now },
+    quantity: Number,
+    price: Number,
+    wishlistName: { type: String, default: 'default' },
+});
+
+const Wishlist = mongoose.model('Wishlist', WishListSchema);
+
+module.exports = { Invoice, Wishlist };
