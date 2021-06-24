@@ -1,14 +1,14 @@
 <template>
     <div class="pagination">
         <button
-            class="nes-btn"
+            class="button"
             :class="{ 'is-disabled': !hasPrev }"
             @click="prev"
         >
             &lt;
         </button>
         <button
-            class="nes-btn"
+            class="button"
             @click="gotoPage(page)"
             v-for="page in availPages"
             :key="page"
@@ -17,7 +17,7 @@
             {{ page }}
         </button>
         <button
-            class="nes-btn"
+            class="button"
             :class="{ 'is-disabled': !hasNext }"
             @click="next"
         >
@@ -94,57 +94,6 @@ export default defineComponent({
             gotoPage,
         };
     },
-    // data() {
-    //     return {
-    //         currentPage: 1,
-    //     };
-    // },
-    // computed: {
-    //     totalPages(): number {
-    //         return Math.ceil(this.totalRecords / this.perPage);
-    //     },
-    //     availPages(): Set<number> {
-    //         return new Set(
-    //             [
-    //                 1,
-    //                 this.currentPage - 1,
-    //                 this.currentPage,
-    //                 this.currentPage + 1,
-    //                 this.totalPages,
-    //             ]
-    //                 .sort((a, b) => a - b)
-    //                 .filter(
-    //                     (pageNo) => pageNo <= this.totalPages && pageNo >= 1
-    //                 )
-    //         );
-    //     },
-    //     hasNext(): boolean {
-    //         return this.currentPage < this.totalPages;
-    //     },
-    //     hasPrev(): boolean {
-    //         return this.currentPage > 1;
-    //     },
-    // },
-    // methods: {
-    //     prev(): void {
-    //         if (this.hasPrev) {
-    //             this.currentPage -= 1;
-    //             this.$emit('pageChange', this.currentPage);
-    //         }
-    //     },
-    //     next(): void {
-    //         if (this.hasNext) {
-    //             this.currentPage += 1;
-    //             this.$emit('pageChange', this.currentPage);
-    //         }
-    //     },
-    //     gotoPage(pageNo: number): void {
-    //         if (pageNo > 0 && pageNo <= this.totalPages) {
-    //             this.currentPage = pageNo;
-    //             this.$emit('pageChange', this.currentPage);
-    //         }
-    //     },
-    // },
 });
 </script>
 

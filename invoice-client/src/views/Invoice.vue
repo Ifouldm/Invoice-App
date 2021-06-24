@@ -61,17 +61,26 @@
             </div>
             <div class="invoice-table">
                 <table>
+                    <colgroup>
+                        <col span="1" style="width: 15%" />
+                        <col span="1" style="width: 40%" />
+                        <col span="1" style="width: 15%" />
+                        <col span="1" style="width: 15%" />
+                        <col span="1" style="width: 15%" />
+                    </colgroup>
                     <tr>
                         <th>Line No</th>
                         <th>Item</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Line Total</th>
                     </tr>
                     <tr v-for="(line, index) in invoice.itemList" :key="index">
                         <td>{{ index + 1 }}</td>
                         <td>{{ line.itemName }}</td>
                         <td>{{ line.quantity }}</td>
                         <td>{{ formatPrice(line.price) }}</td>
+                        <td>{{ formatPrice(line.price * line.quantity) }}</td>
                     </tr>
                 </table>
             </div>
@@ -158,8 +167,6 @@ export default defineComponent({
                     { paymentStatus: 'paid' }
                 )
                 .then((res) => {
-                    console.log(res.data);
-
                     invoice.value = res.data;
                 })
                 .catch((err) => console.error(err));
@@ -218,6 +225,10 @@ export default defineComponent({
     align-items: center;
     background-color: var(--DarkBlue);
     padding: 1rem 2rem;
+    .end {
+        display: flex;
+        gap: 1rem;
+    }
 }
 
 .invoice-data {
@@ -283,9 +294,5 @@ export default defineComponent({
     border-radius: 0 0 0.8rem 0.8rem;
     background-color: var(--AlmostBlack);
     padding: 2rem;
-}
-
-.end {
-    display: flex;
 }
 </style>

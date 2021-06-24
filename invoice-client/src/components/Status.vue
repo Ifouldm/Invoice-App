@@ -21,6 +21,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .status {
+    text-align: center;
     padding: 0.8rem;
     background-color: var(--DarkBlueEmphasis);
     font-weight: 700;

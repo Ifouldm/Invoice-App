@@ -40,33 +40,40 @@ export interface Wishlist {
 }
 
 export const invoiceSchema = yup.object({
-    invoiceNo: yup.string().required(),
-    fromAddress: yup.string().required(),
-    fromCity: yup.string().required(),
-    fromPostcode: yup.string().required(),
-    fromCountry: yup.string().required(),
-    clientName: yup.string().required(),
-    clientEmail: yup.string().required().email(),
-    clientAddress: yup.string().required(),
-    clientCity: yup.string().required(),
-    clientPostcode: yup.string().required(),
-    clientCountry: yup.string().required(),
-    invoiceDate: yup.string().required(),
-    paymentTerms: yup.number().default(30).max(365),
-    projectDescription: yup.string().notRequired(),
+    invoiceNo: yup.string().required().label('Invoice Number'),
+    fromAddress: yup.string().required().label('From Address'),
+    fromCity: yup.string().required().label('From City'),
+    fromPostcode: yup.string().required().label('From Postcode'),
+    fromCountry: yup.string().required().label('From Country'),
+    clientName: yup.string().required().label('Client Name'),
+    clientEmail: yup.string().required().email().label('Client Email'),
+    clientAddress: yup.string().required().label('Client Address'),
+    clientCity: yup.string().required().label('Client City'),
+    clientPostcode: yup.string().required().label('Client Postcode'),
+    clientCountry: yup.string().required().label('Client Country'),
+    invoiceDate: yup.string().required().label('Invoice Date'),
+    paymentTerms: yup
+        .number()
+        .required()
+        .oneOf([30, 60, 90])
+        .label('Payment Terms (Days)'),
+    projectDescription: yup.string().notRequired().label('Project Description'),
     itemList: yup
         .array()
         .of(
-            yup.object({
-                itemName: yup.string().required(),
-                quantity: yup.number().required().min(1),
-                price: yup.number().required().min(0.01),
-            })
+            yup
+                .object({
+                    itemName: yup.string().required().label('Item Name'),
+                    quantity: yup.number().required().min(1).label('Quantity'),
+                    price: yup.number().required().min(0.01).label('Price'),
+                })
+                .label('Item')
         )
         .min(1),
     paymentStatus: yup
         .mixed<PaymentStatus>()
         .required()
         .default('unpaid')
-        .oneOf(['paid', 'unpaid', 'pending', 'draft']),
+        .oneOf(['paid', 'unpaid', 'pending', 'draft'])
+        .label('Payment Status'),
 });

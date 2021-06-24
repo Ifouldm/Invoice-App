@@ -150,10 +150,12 @@ export default defineComponent({
 }
 
 h1 {
+    margin: 0.5rem 0;
     color: var(--White);
 }
 
 h5 {
+    margin: 0.5rem 0;
     color: var(--LightGrey);
 }
 </style>

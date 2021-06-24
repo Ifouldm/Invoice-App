@@ -33,30 +33,27 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.3rem;
     padding: 1rem;
     background-color: var(--PurpleAccent);
     color: var(--White);
     font-weight: 700;
+    font-size: 1rem;
     border-radius: 2rem;
     text-decoration: none;
     cursor: pointer;
-    animation-name: grow;
-    animation-duration: 0.3s;
-    animation-timing-function: ease-in-out;
-    line-height: 1;
 }
 
 .button.add {
-    padding-left: 4rem;
+    padding-left: 3.4rem;
 }
 
 .button.add::before {
     position: absolute;
     content: '+';
-    top: 0.4rem;
-    left: 0.4rem;
-    bottom: 0.4rem;
+    margin: 0.3rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
     width: 2.6rem;
     border-radius: 100%;
     display: flex;
@@ -76,20 +73,6 @@ body {
 
 .button.warning {
     background-color: var(--RedWarning);
-}
-
-@keyframes grow {
-    0% {
-        transform: scale(0);
-    }
-
-    90% {
-        transform: scale(1.1);
-    }
-
-    100% {
-        transform: scale(1);
-    }
 }
 
 form {

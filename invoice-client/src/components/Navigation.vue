@@ -6,9 +6,6 @@
         <router-link class="button" active-class="active" to="/about">
             About
         </router-link>
-        <router-link class="button" active-class="active" to="/Wishlists">
-            Wishlists
-        </router-link>
     </div>
 </template>
 
@@ -30,7 +27,7 @@ export default defineComponent({});
         margin: 1rem;
     }
     .active {
-        background-color: #5a34f1;
+        background-color: #4527be;
     }
 }
 </style>

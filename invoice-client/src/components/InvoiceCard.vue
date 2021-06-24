@@ -1,5 +1,8 @@
 <template>
-    <div class="card">
+    <router-link
+        class="card"
+        :to="{ path: 'Invoice', query: { invoiceNo: invoice.invoiceNo } }"
+    >
         <span class="invoiceNo">
             <span class="hash">#</span>
             {{ invoice.invoiceNo }}
@@ -8,12 +11,8 @@
         <span class="name">{{ invoice.clientName }}</span>
         <span class="amount">{{ formattedAmount() }}</span>
         <Status :status="invoice.paymentStatus" />
-        <router-link
-            class="details"
-            :to="{ path: 'Invoice', query: { invoiceNo: invoice.invoiceNo } }"
-            >&#62;
-        </router-link>
-    </div>
+        <span class="details">&#62;</span>
+    </router-link>
 </template>
 
 <script lang="ts">
@@ -85,9 +84,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .card {
+    text-decoration: none;
+    color: var(--Grey);
     width: 100%;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 2fr 3fr 2fr 1fr 1fr;
     align-items: center;
     background-color: var(--DarkBlue);
     border-radius: 0.5rem;
@@ -111,6 +112,7 @@ export default defineComponent({
 }
 
 .details {
+    text-align: center;
     padding: 1rem;
     font-weight: 700;
     text-decoration: none;
