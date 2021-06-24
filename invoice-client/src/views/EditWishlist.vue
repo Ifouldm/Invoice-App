@@ -69,6 +69,7 @@ import axios from 'axios';
 import { defineComponent, ref } from 'vue';
 import { Wishlist } from '../types';
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 const apiAddress = 'http://localhost:3000/api';
 
@@ -76,6 +77,7 @@ export default defineComponent({
     setup() {
         const router = useRouter();
         const route = useRoute();
+        const store = useStore();
 
         const form = ref({
             itemName: '',
@@ -100,12 +102,22 @@ export default defineComponent({
                         form.value
                     )
                     .then(() => router.push('/wishlists'))
-                    .catch((err) => console.error(err));
+                    .catch((err) =>
+                        store.dispatch(
+                            'notification',
+                            'Error updating wishlist: ' + err
+                        )
+                    );
             } else {
                 axios
                     .post(`${apiAddress}/wishlist`, form.value)
                     .then(() => router.push('/wishlists'))
-                    .catch((err) => console.error(err));
+                    .catch((err) =>
+                        store.dispatch(
+                            'notification',
+                            'Error inserting new wishlist: ' + err
+                        )
+                    );
             }
         };
 

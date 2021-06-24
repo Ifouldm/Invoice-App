@@ -1,26 +1,22 @@
 <template>
     <transition name="notes">
-        <div class="notification" v-if="visible()">
+        <div class="notification" v-if="visible">
             {{ message }}
         </div>
     </transition>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 
-import store from '../store';
+import { useStore } from 'vuex';
 
 export default defineComponent({
-    props: {
-        message: {
-            type: String,
-            required: true,
-        },
-    },
     setup() {
-        const visible = () => store.state.notificationVisible;
-        return { visible };
+        const store = useStore();
+        const message = computed(() => store.state.notificationText);
+        const visible = computed(() => store.state.notificationVisible);
+        return { visible, message };
     },
 });
 </script>

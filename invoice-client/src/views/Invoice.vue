@@ -98,15 +98,16 @@ import axios from 'axios';
 import { Invoice } from '../types';
 import Status from '../components/Status.vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 const apiAddress = 'http://localhost:3000/api';
 
 export default defineComponent({
     setup() {
         const invoice = ref({} as Invoice);
-
         const router = useRouter();
         const route = useRoute();
+        const store = useStore();
 
         const getInvoice = function () {
             axios
@@ -114,7 +115,12 @@ export default defineComponent({
                 .then((res) => {
                     invoice.value = res.data;
                 })
-                .catch((err) => console.error(err));
+                .catch((err) =>
+                    store.dispatch(
+                        'notification',
+                        'Error loading invoice: ' + err
+                    )
+                );
         };
 
         onMounted(getInvoice);
@@ -169,7 +175,12 @@ export default defineComponent({
                 .then((res) => {
                     invoice.value = res.data;
                 })
-                .catch((err) => console.error(err));
+                .catch((err) =>
+                    store.dispatch(
+                        'notification',
+                        'Error updating status: ' + err
+                    )
+                );
         };
 
         const deleteInv = function () {
@@ -178,7 +189,12 @@ export default defineComponent({
                     `${apiAddress}/invoice?invoiceNo=${invoice.value.invoiceNo}`
                 )
                 .then(() => router.push('/'))
-                .catch((err) => console.error(err));
+                .catch((err) =>
+                    store.dispatch(
+                        'notification',
+                        'Error deleting invoice: ' + err
+                    )
+                );
         };
 
         const editInv = function () {

@@ -54,16 +54,16 @@ import { defineComponent, ref, onMounted } from 'vue';
 import axios from 'axios';
 import { Wishlist } from '../types';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 const apiAddress = 'http://localhost:3000/api';
 
 export default defineComponent({
     setup() {
         const wishlist = ref([] as Array<Wishlist>);
-
         const order = ref('');
-
         const route = useRoute();
+        const store = useStore();
 
         const getTotal = function () {
             return wishlist.value.reduce(
@@ -72,13 +72,18 @@ export default defineComponent({
             );
         };
 
-        const getInvoice = function () {
+        const getWishlist = function () {
             axios
                 .get(`${apiAddress}/wishlist?name=${route.query.name}`)
                 .then((res) => {
                     wishlist.value = res.data;
                 })
-                .catch((err) => console.error(err));
+                .catch((err) =>
+                    store.dispatch(
+                        'notification',
+                        'Error loading wishlist: ' + err
+                    )
+                );
         };
 
         const sortByPrice = function () {
@@ -90,7 +95,7 @@ export default defineComponent({
             );
         };
 
-        onMounted(getInvoice);
+        onMounted(getWishlist);
 
         return {
             wishlist,

@@ -158,6 +158,7 @@ import axios from 'axios';
 import { defineComponent, onMounted } from 'vue';
 import { Invoice, invoiceSchema, PaymentStatus } from '../types';
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import {
     useForm,
     useIsFormDirty,
@@ -171,6 +172,7 @@ export default defineComponent({
     setup() {
         const router = useRouter();
         const route = useRoute();
+        const store = useStore();
 
         const generateInvNo = function () {
             const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -215,7 +217,12 @@ export default defineComponent({
                         Object.assign(form, res.data);
                         validate();
                     })
-                    .catch((err) => console.error(err));
+                    .catch((err) =>
+                        store.dispatch(
+                            'notification',
+                            'Error loading invoice: ' + err
+                        )
+                    );
             }
         });
 
@@ -251,12 +258,22 @@ export default defineComponent({
                         form
                     )
                     .then(() => router.push('/'))
-                    .catch((err) => console.error(err));
+                    .catch((err) =>
+                        store.dispatch(
+                            'notification',
+                            'Error updating invoice: ' + err
+                        )
+                    );
             } else {
                 axios
                     .post(`${apiAddress}/invoice`, form)
                     .then(() => router.push('/'))
-                    .catch((err) => console.error(err));
+                    .catch((err) =>
+                        store.dispatch(
+                            'notification',
+                            'Error inserting new invoice: ' + err
+                        )
+                    );
             }
         });
 
