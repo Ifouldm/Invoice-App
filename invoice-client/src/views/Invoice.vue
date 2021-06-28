@@ -174,6 +174,7 @@ export default defineComponent({
                 )
                 .then((res) => {
                     invoice.value = res.data;
+                    store.dispatch('notification', 'Payment status updated');
                 })
                 .catch((err) =>
                     store.dispatch(
@@ -188,7 +189,10 @@ export default defineComponent({
                 .delete(
                     `${apiAddress}/invoice?invoiceNo=${invoice.value.invoiceNo}`
                 )
-                .then(() => router.push('/'))
+                .then(() => {
+                    router.push('/');
+                    store.dispatch('notification', 'Invoice Deleted');
+                })
                 .catch((err) =>
                     store.dispatch(
                         'notification',

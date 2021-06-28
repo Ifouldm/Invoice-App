@@ -6,24 +6,40 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="fromAddress">Street Address</label>
-                        <input v-model.trim="form.fromAddress" type="text" />
+                        <input
+                            v-model.trim="form.fromAddress"
+                            type="text"
+                            :class="errors.fromAddress ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.fromAddress }}</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="fromCity">City</label>
-                        <input v-model.trim="form.fromCity" type="text" />
+                        <input
+                            v-model.trim="form.fromCity"
+                            type="text"
+                            :class="errors.fromCity ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.fromCity }}</span>
                     </div>
                     <div class="form-field">
                         <label for="fromPostcode">Postcode</label>
-                        <input v-model.trim="form.fromPostcode" type="text" />
+                        <input
+                            v-model.trim="form.fromPostcode"
+                            type="text"
+                            :class="errors.fromPostcode ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.fromPostcode }}</span>
                     </div>
                     <div class="form-field">
                         <label for="fromCountry">Country</label>
-                        <input v-model.trim="form.fromCountry" type="text" />
+                        <input
+                            v-model.trim="form.fromCountry"
+                            type="text"
+                            :class="errors.fromCountry ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.fromCountry }}</span>
                     </div>
                 </div>
@@ -33,38 +49,62 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="clientName">Client's Name</label>
-                        <input v-model.trim="form.clientName" type="text" />
+                        <input
+                            v-model.trim="form.clientName"
+                            type="text"
+                            :class="errors.clientName ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.clientName }}</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="clientEmail">Client's Email</label>
-                        <input v-model.trim="form.clientEmail" type="text" />
+                        <input
+                            v-model.trim="form.clientEmail"
+                            type="text"
+                            :class="errors.clientEmail ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.clientEmail }}</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="clientAddress">Street Address</label>
-                        <input v-model.trim="form.clientAddress" type="text" />
+                        <input
+                            v-model.trim="form.clientAddress"
+                            type="text"
+                            :class="errors.clientAddress ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.clientAddress }}</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="clientCity">City</label>
-                        <input v-model.trim="form.clientCity" type="text" />
+                        <input
+                            v-model.trim="form.clientCity"
+                            type="text"
+                            :class="errors.clientCity ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.clientCity }}</span>
                     </div>
                     <div class="form-field">
                         <label for="clientPostcode">Postcode</label>
-                        <input v-model.trim="form.clientPostcode" type="text" />
+                        <input
+                            v-model.trim="form.clientPostcode"
+                            type="text"
+                            :class="errors.clientPostcode ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.clientPostcode }}</span>
                     </div>
                     <div class="form-field">
                         <label for="clientCountry">Country</label>
-                        <input v-model.trim="form.clientCountry" type="text" />
+                        <input
+                            v-model.trim="form.clientCountry"
+                            type="text"
+                            :class="errors.clientCountry ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.clientCountry }}</span>
                     </div>
                 </div>
@@ -83,7 +123,11 @@
                     </div>
                     <div class="form-field">
                         <label for="paymentTerms">Payment Terms</label>
-                        <input v-model.number="form.paymentTerms" type="text" />
+                        <input
+                            v-model.number="form.paymentTerms"
+                            type="text"
+                            :class="errors.paymentTerms ? 'error-field' : ''"
+                        />
                         <span class="error">{{ errors.paymentTerms }}</span>
                     </div>
                 </div>
@@ -95,6 +139,9 @@
                         <input
                             v-model.trim="form.projectDescription"
                             type="text"
+                            :class="
+                                errors.projectDescription ? 'error-field' : ''
+                            "
                         />
                         <span class="error">{{
                             errors.projectDescription
@@ -116,12 +163,18 @@
                             <input
                                 type="text"
                                 v-model.trim="itemRow.itemName"
+                                :class="errors.itemName ? 'error-field' : ''"
                             />
                             <input
                                 type="number"
                                 v-model.number="itemRow.quantity"
+                                :class="errors.quantity ? 'error-field' : ''"
                             />
-                            <input type="text" v-model.number="itemRow.price" />
+                            <input
+                                type="text"
+                                v-model.number="itemRow.price"
+                                :class="errors.price ? 'error-field' : ''"
+                            />
                             <input
                                 type="text"
                                 readonly
@@ -313,6 +366,7 @@ export default defineComponent({
             isFormDirty,
             isFormValid,
             errors,
+            validate,
         };
     },
 });
@@ -321,6 +375,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 label {
     display: block;
+}
+
+.error-field {
+    border-bottom: 2px solid red;
 }
 
 .form-row {

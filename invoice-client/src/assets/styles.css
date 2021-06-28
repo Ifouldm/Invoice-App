@@ -38,6 +38,7 @@ body {
     color: var(--White);
     font-weight: 700;
     font-size: 1rem;
+    border: none;
     border-radius: 2rem;
     text-decoration: none;
     cursor: pointer;
@@ -97,6 +98,7 @@ label {
 }
 
 input {
+    position: relative;
     padding: 0.8rem;
     border-radius: 0.3rem;
     border: none;
