@@ -1,26 +1,46 @@
 <template>
     <div class="NewInvoice">
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit" @change="validate()">
             <div class="section">
                 <div class="section-heading">Bill from</div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="fromAddress">Street Address</label>
-                        <input v-model.trim="form.fromAddress" type="text" />
+                        <input
+                            v-model.trim="form.fromAddress"
+                            type="text"
+                            :class="errors.fromAddress ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.fromAddress }}</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="fromCity">City</label>
-                        <input v-model.trim="form.fromCity" type="text" />
+                        <input
+                            v-model.trim="form.fromCity"
+                            type="text"
+                            :class="errors.fromCity ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.fromCity }}</span>
                     </div>
                     <div class="form-field">
                         <label for="fromPostcode">Postcode</label>
-                        <input v-model.trim="form.fromPostcode" type="text" />
+                        <input
+                            v-model.trim="form.fromPostcode"
+                            type="text"
+                            :class="errors.fromPostcode ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.fromPostcode }}</span>
                     </div>
                     <div class="form-field">
                         <label for="fromCountry">Country</label>
-                        <input v-model.trim="form.fromCountry" type="text" />
+                        <input
+                            v-model.trim="form.fromCountry"
+                            type="text"
+                            :class="errors.fromCountry ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.fromCountry }}</span>
                     </div>
                 </div>
             </div>
@@ -29,33 +49,63 @@
                 <div class="form-row">
                     <div class="form-field">
                         <label for="clientName">Client's Name</label>
-                        <input v-model.trim="form.clientName" type="text" />
+                        <input
+                            v-model.trim="form.clientName"
+                            type="text"
+                            :class="errors.clientName ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.clientName }}</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="clientEmail">Client's Email</label>
-                        <input v-model.trim="form.clientEmail" type="text" />
+                        <input
+                            v-model.trim="form.clientEmail"
+                            type="text"
+                            :class="errors.clientEmail ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.clientEmail }}</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="clientAddress">Street Address</label>
-                        <input v-model.trim="form.clientAddress" type="text" />
+                        <input
+                            v-model.trim="form.clientAddress"
+                            type="text"
+                            :class="errors.clientAddress ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.clientAddress }}</span>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-field">
                         <label for="clientCity">City</label>
-                        <input v-model.trim="form.clientCity" type="text" />
+                        <input
+                            v-model.trim="form.clientCity"
+                            type="text"
+                            :class="errors.clientCity ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.clientCity }}</span>
                     </div>
                     <div class="form-field">
                         <label for="clientPostcode">Postcode</label>
-                        <input v-model.trim="form.clientPostcode" type="text" />
+                        <input
+                            v-model.trim="form.clientPostcode"
+                            type="text"
+                            :class="errors.clientPostcode ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.clientPostcode }}</span>
                     </div>
                     <div class="form-field">
                         <label for="clientCountry">Country</label>
-                        <input v-model.trim="form.clientCountry" type="text" />
+                        <input
+                            v-model.trim="form.clientCountry"
+                            type="text"
+                            :class="errors.clientCountry ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.clientCountry }}</span>
                     </div>
                 </div>
             </div>
@@ -65,14 +115,20 @@
                     <div class="form-field">
                         <label for="invoiceDate">Invoice Date</label>
                         <input
-                            @input="dateChange"
                             :value="dateFormat()"
+                            @change="dateChange"
                             type="date"
                         />
+                        <span class="error">{{ errors.invoiceDate }}</span>
                     </div>
                     <div class="form-field">
                         <label for="paymentTerms">Payment Terms</label>
-                        <input v-model.number="form.paymentTerms" type="text" />
+                        <input
+                            v-model.number="form.paymentTerms"
+                            type="text"
+                            :class="errors.paymentTerms ? 'error-field' : ''"
+                        />
+                        <span class="error">{{ errors.paymentTerms }}</span>
                     </div>
                 </div>
                 <div class="form-row">
@@ -83,7 +139,13 @@
                         <input
                             v-model.trim="form.projectDescription"
                             type="text"
+                            :class="
+                                errors.projectDescription ? 'error-field' : ''
+                            "
                         />
+                        <span class="error">{{
+                            errors.projectDescription
+                        }}</span>
                     </div>
                 </div>
                 <div class="section">
@@ -101,29 +163,51 @@
                             <input
                                 type="text"
                                 v-model.trim="itemRow.itemName"
+                                :class="
+                                    errors['itemList[' + index + '].itemName']
+                                        ? 'error-field'
+                                        : ''
+                                "
                             />
                             <input
                                 type="number"
                                 v-model.number="itemRow.quantity"
+                                :class="
+                                    errors['itemList[' + index + '].quantity']
+                                        ? 'error-field'
+                                        : ''
+                                "
                             />
                             <input
-                                type="number"
+                                type="text"
                                 v-model.number="itemRow.price"
+                                :class="
+                                    errors['itemList[' + index + '].price']
+                                        ? 'error-field'
+                                        : ''
+                                "
                             />
                             <input
                                 type="text"
                                 readonly
-                                :value="itemRow.price * itemRow.quantity"
+                                :value="
+                                    (itemRow.price * itemRow.quantity).toFixed(
+                                        2
+                                    )
+                                "
                             />
-                            <div @click="delLine(index)">&#128465;</div>
+                            <div class="delete-item" @click="delLine(index)">
+                                &#128465;
+                            </div>
                         </template>
+                        <span class="error">{{ errors.itemList }}</span>
                     </div>
-                    <a class="button muted" @click="addNewItem()">
+                    <a class="button muted add-item" @click="addNewItem()">
                         + Add New Item
                     </a>
                 </div>
             </div>
-            <div class="section">
+            <div class="section buttons">
                 <a class="button muted" href="#" @click="back">Cancel</a>
                 <input
                     type="submit"
@@ -131,11 +215,11 @@
                     value="Save Changes"
                     :disabled="isSubmitting"
                 />
-                <a class="button" href="#" @click="validate">Validate</a>
-                <span v-if="isFormValid && isFormDirty">VALID</span>
-            </div>
-            <div class="section">
-                {{ errors }}
+                <img
+                    class="valid"
+                    v-if="isFormValid && isFormDirty"
+                    src="../assets/tick.svg"
+                />
             </div>
         </form>
     </div>
@@ -143,9 +227,10 @@
 
 <script lang="ts">
 import axios from 'axios';
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { Invoice, invoiceSchema, PaymentStatus } from '../types';
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import {
     useForm,
     useIsFormDirty,
@@ -153,12 +238,13 @@ import {
     useValidateForm,
 } from 'vee-validate';
 
-const apiAddress = 'http://localhost:3000/api';
-
 export default defineComponent({
     setup() {
+        const apiAddress = process.env.VUE_APP_API_URL || '/api';
+
         const router = useRouter();
         const route = useRoute();
+        const store = useStore();
 
         const generateInvNo = function () {
             const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -193,18 +279,38 @@ export default defineComponent({
             paymentStatus: 'unpaid' as PaymentStatus,
         };
 
+        onMounted(() => {
+            if (route.query.invoiceNo) {
+                axios
+                    .get(
+                        `${apiAddress}/invoice?invoiceNo=${route.query.invoiceNo}`
+                    )
+                    .then((res) => {
+                        Object.assign(form, res.data);
+                        validate();
+                    })
+                    .catch((err) =>
+                        store.dispatch(
+                            'notification',
+                            'Error loading invoice: ' + err
+                        )
+                    );
+            }
+        });
+
         const {
             errors,
             handleSubmit,
             isSubmitting,
             values: form,
         } = useForm<Invoice>({
+            validateOnMount: false,
             validationSchema: invoiceSchema,
             initialValues,
         });
 
         const dateFormat = function () {
-            const date = new Date();
+            const date = new Date(form.invoiceDate);
 
             const day = ('0' + date.getDate()).slice(-2);
             const month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -224,18 +330,33 @@ export default defineComponent({
                         form
                     )
                     .then(() => router.push('/'))
-                    .catch((err) => console.error(err));
+                    .catch((err) =>
+                        store.dispatch(
+                            'notification',
+                            'Error updating invoice: ' + err
+                        )
+                    );
             } else {
                 axios
                     .post(`${apiAddress}/invoice`, form)
                     .then(() => router.push('/'))
-                    .catch((err) => console.error(err));
+                    .catch((err) => {
+                        console.error(`${apiAddress}/invoice`);
+                        store.dispatch(
+                            'notification',
+                            'Error inserting new invoice: ' + err
+                        );
+                    });
             }
         });
 
         const addNewItem = function () {
             if (form.itemList)
-                form.itemList.push({ itemName: '', quantity: 1, price: 0 });
+                form.itemList.push({
+                    itemName: '',
+                    quantity: 1,
+                    price: 0,
+                });
         };
 
         const delLine = function (index: number) {
@@ -261,24 +382,12 @@ export default defineComponent({
             delLine,
             dateChange,
             dateFormat,
-            errors,
             isSubmitting,
             isFormDirty,
             isFormValid,
+            errors,
             validate,
         };
-    },
-    created() {
-        if (this.$route.query.invoiceNo) {
-            axios
-                .get(
-                    `${apiAddress}/invoice?invoiceNo=${this.$route.query.invoiceNo}`
-                )
-                .then((res) => {
-                    this.form = res.data;
-                })
-                .catch((err) => console.error(err));
-        }
     },
 });
 </script>
@@ -288,6 +397,10 @@ label {
     display: block;
 }
 
+.error-field {
+    border-bottom: 2px solid red;
+}
+
 .form-row {
     width: 100%;
     display: flex;
@@ -295,7 +408,13 @@ label {
 }
 
 .form-field {
+    display: flex;
+    flex-direction: column;
     margin: 1rem 0;
+}
+
+.valid {
+    height: 3rem;
 }
 
 .section {
@@ -317,5 +436,21 @@ label {
         grid-template-columns: 4fr 1fr 2fr 2fr 1fr;
         gap: 0.5rem;
     }
+
+    .add-item {
+        margin: 1rem 0;
+    }
+
+    .delete-item {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
 }
 </style>

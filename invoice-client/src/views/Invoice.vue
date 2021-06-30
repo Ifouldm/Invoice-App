@@ -61,17 +61,26 @@
             </div>
             <div class="invoice-table">
                 <table>
+                    <colgroup>
+                        <col span="1" style="width: 15%" />
+                        <col span="1" style="width: 40%" />
+                        <col span="1" style="width: 15%" />
+                        <col span="1" style="width: 15%" />
+                        <col span="1" style="width: 15%" />
+                    </colgroup>
                     <tr>
                         <th>Line No</th>
                         <th>Item</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Line Total</th>
                     </tr>
                     <tr v-for="(line, index) in invoice.itemList" :key="index">
                         <td>{{ index + 1 }}</td>
                         <td>{{ line.itemName }}</td>
                         <td>{{ line.quantity }}</td>
                         <td>{{ formatPrice(line.price) }}</td>
+                        <td>{{ formatPrice(line.price * line.quantity) }}</td>
                     </tr>
                 </table>
             </div>
@@ -89,15 +98,16 @@ import axios from 'axios';
 import { Invoice } from '../types';
 import Status from '../components/Status.vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-const apiAddress = 'http://localhost:3000/api';
+const apiAddress = process.env.VUE_APP_API_URL || '/api';
 
 export default defineComponent({
     setup() {
         const invoice = ref({} as Invoice);
-
         const router = useRouter();
         const route = useRoute();
+        const store = useStore();
 
         const getInvoice = function () {
             axios
@@ -105,7 +115,12 @@ export default defineComponent({
                 .then((res) => {
                     invoice.value = res.data;
                 })
-                .catch((err) => console.error(err));
+                .catch((err) =>
+                    store.dispatch(
+                        'notification',
+                        'Error loading invoice: ' + err
+                    )
+                );
         };
 
         onMounted(getInvoice);
@@ -158,11 +173,15 @@ export default defineComponent({
                     { paymentStatus: 'paid' }
                 )
                 .then((res) => {
-                    console.log(res.data);
-
                     invoice.value = res.data;
+                    store.dispatch('notification', 'Payment status updated');
                 })
-                .catch((err) => console.error(err));
+                .catch((err) =>
+                    store.dispatch(
+                        'notification',
+                        'Error updating status: ' + err
+                    )
+                );
         };
 
         const deleteInv = function () {
@@ -170,8 +189,16 @@ export default defineComponent({
                 .delete(
                     `${apiAddress}/invoice?invoiceNo=${invoice.value.invoiceNo}`
                 )
-                .then(() => router.push('/'))
-                .catch((err) => console.error(err));
+                .then(() => {
+                    router.push('/');
+                    store.dispatch('notification', 'Invoice Deleted');
+                })
+                .catch((err) =>
+                    store.dispatch(
+                        'notification',
+                        'Error deleting invoice: ' + err
+                    )
+                );
         };
 
         const editInv = function () {
@@ -218,6 +245,10 @@ export default defineComponent({
     align-items: center;
     background-color: var(--DarkBlue);
     padding: 1rem 2rem;
+    .end {
+        display: flex;
+        gap: 1rem;
+    }
 }
 
 .invoice-data {
@@ -283,9 +314,5 @@ export default defineComponent({
     border-radius: 0 0 0.8rem 0.8rem;
     background-color: var(--AlmostBlack);
     padding: 2rem;
-}
-
-.end {
-    display: flex;
 }
 </style>

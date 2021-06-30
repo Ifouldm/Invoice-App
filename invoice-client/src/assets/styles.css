@@ -8,6 +8,7 @@
     --LightGrey: #adb0c0; /* Text Colour */
     --Grey: #838590; /* Text Colour */
     --PurpleAccent: #7b5cf9; /* Buttons etc */
+    --PurpleEnabled: #4e37a8; /* Buttons etc */
     --GreenDone: #369a85; /* Buttons etc */
     --AmberPending: #8b552c; /* Buttons etc */
     --RedWarning: #ed5659; /* Buttons etc */
@@ -26,6 +27,12 @@ body {
     font-family: 'Spartan', sans-serif;
     color: var(--Grey);
     min-height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+a {
+    color: var(--White);
 }
 
 .button {
@@ -33,30 +40,36 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.3rem;
     padding: 1rem;
     background-color: var(--PurpleAccent);
     color: var(--White);
     font-weight: 700;
+    font-size: 1rem;
+    border: none;
     border-radius: 2rem;
     text-decoration: none;
     cursor: pointer;
-    animation-name: grow;
-    animation-duration: 0.3s;
-    animation-timing-function: ease-in-out;
-    line-height: 1;
+}
+
+.button.is-primary {
+    background-color: var(--PurpleEnabled);
+}
+
+.button.is-disabled {
+    filter: contrast(0.5);
 }
 
 .button.add {
-    padding-left: 4rem;
+    padding-left: 3.4rem;
 }
 
 .button.add::before {
     position: absolute;
     content: '+';
-    top: 0.4rem;
-    left: 0.4rem;
-    bottom: 0.4rem;
+    margin: 0.3rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
     width: 2.6rem;
     border-radius: 100%;
     display: flex;
@@ -78,27 +91,6 @@ body {
     background-color: var(--RedWarning);
 }
 
-@keyframes grow {
-    0% {
-        transform: scale(0);
-    }
-
-    90% {
-        transform: scale(1.1);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-form {
-    transform-origin: top left;
-    animation-name: slide-right;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
-}
-
 @keyframes slide-right {
     0% {
         transform: scaleX(0);
@@ -114,6 +106,7 @@ label {
 }
 
 input {
+    position: relative;
     padding: 0.8rem;
     border-radius: 0.3rem;
     border: none;

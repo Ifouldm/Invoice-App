@@ -41,7 +41,7 @@ router.put('/invoice', async (req, res) => {
     const invNo = req.query.invoiceNo;
     const newInvoice = new Invoice(req.body);
     try {
-        Invoice.replaceOne({ invoice: invNo }, newInvoice);
+        await Invoice.updateOne({ invoiceNo: invNo }, newInvoice);
         res.status(200).send('Update successful');
     } catch (err) {
         console.error(err.message);
@@ -59,7 +59,12 @@ router.patch('/invoice', async (req, res) => {
             { invoiceNo: invNo },
             { $set: modifictation }
         );
-        res.status(200).send('Update successful');
+        const invoice = await Invoice.findOne({ invoiceNo: invNo }).exec();
+        if (!invoice) {
+            res.status(404).send('Unable to find record ' + invNo);
+        } else {
+            res.json(invoice);
+        }
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Error updating invoice');

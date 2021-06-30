@@ -40,11 +40,13 @@ import InvoiceCard from '../components/InvoiceCard.vue';
 import Filters from '../components/Filters.vue';
 import { Invoice } from '../types';
 import Pagination from '../components/Pagination.vue';
+import { useStore } from 'vuex';
 
-const apiAddress = 'http://localhost:3000/api';
+const apiAddress = process.env.VUE_APP_API_URL || '/api';
 
 export default defineComponent({
     setup() {
+        const store = useStore();
         const allInvoices = ref([] as Invoice[]);
         const invoices = ref([] as Invoice[]);
         const totalPages = ref(0);
@@ -59,7 +61,12 @@ export default defineComponent({
                     allInvoices.value = res.data.invoices;
                     invoices.value = [...allInvoices.value];
                 })
-                .catch((err) => console.error(err));
+                .catch((err) =>
+                    store.dispatch(
+                        'notification',
+                        'Error loading invoices: ' + err
+                    )
+                );
         };
 
         const invoiceTotal = (invoice: Invoice) =>
@@ -69,6 +76,7 @@ export default defineComponent({
             );
 
         const sortByPrice = function () {
+            store.dispatch('notification', 'Sorting by Price...');
             invoices.value.sort((a, b) => invoiceTotal(b) - invoiceTotal(a));
         };
 
@@ -150,10 +158,12 @@ export default defineComponent({
 }
 
 h1 {
+    margin: 0.5rem 0;
     color: var(--White);
 }
 
 h5 {
+    margin: 0.5rem 0;
     color: var(--LightGrey);
 }
 </style>

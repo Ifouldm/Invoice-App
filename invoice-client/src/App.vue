@@ -1,12 +1,14 @@
 <template>
     <div class="page-layout">
         <Navigation />
-        <router-view class="main" v-slot="{ Component }">
-            <transition :name="transitionName">
-                <component :is="Component" />
-            </transition>
-        </router-view>
-        <Notification message="added" />
+        <div class="main">
+            <router-view class="view" v-slot="{ Component }">
+                <transition :name="transitionName">
+                    <component :is="Component" />
+                </transition>
+            </router-view>
+        </div>
+        <Notification />
     </div>
 </template>
 
@@ -47,6 +49,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .page-layout {
     display: flex;
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+    }
 }
 
 .main {
@@ -57,52 +62,37 @@ export default defineComponent({
     align-items: center;
     width: 100%;
     max-width: 1200px;
+    .view {
+        width: 100%;
+    }
 }
 
 .slide-left-enter-active,
-.slide-left-leave-active,
-.slide-right-enter-active,
-.slide-right-leave-active {
-    transition: all 0.75s ease-out;
+.slide-right-enter-active {
+    transition: all 0.75s 0.2s ease;
 }
-
-.slide-left-enter-to {
-    position: absolute;
-    right: 0;
+.slide-left-leave-active,
+.slide-right-leave-active {
+    transition: all 0.75s ease;
 }
 
 .slide-left-enter-from {
     position: absolute;
-    right: -100%;
+    transform: translateX(100%);
 }
 
 .slide-left-leave-to {
     position: absolute;
-    left: -100%;
-}
-
-.slide-left-leave-from {
-    position: absolute;
-    left: 0;
-}
-
-.slide-right-enter-to {
-    position: absolute;
-    left: 0;
+    transform: translateX(-100%);
 }
 
 .slide-right-enter-from {
     position: absolute;
-    left: -100%;
+    transform: translateX(-100%);
 }
 
 .slide-right-leave-to {
     position: absolute;
-    right: -100%;
-}
-
-.slide-right-leave-from {
-    position: absolute;
-    right: 0;
+    transform: translateX(100%);
 }
 </style>

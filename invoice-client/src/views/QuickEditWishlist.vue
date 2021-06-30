@@ -50,13 +50,15 @@ import axios from 'axios';
 import { defineComponent, onMounted, ref } from 'vue';
 import { Wishlist } from '../types';
 import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-const apiAddress = 'http://localhost:3000/api';
+const apiAddress = process.env.VUE_APP_API_URL || '/api';
 
 export default defineComponent({
     setup() {
         const router = useRouter();
         const route = useRoute();
+        const store = useStore();
 
         const wishlistName = ref(route.query.id || '');
         const list = ref(
@@ -91,7 +93,6 @@ export default defineComponent({
                 listSubmit.forEach(
                     (item) => (item.wishlistName = '' + wishlistName.value)
                 );
-                console.log(listSubmit);
             }
         };
 
@@ -100,11 +101,14 @@ export default defineComponent({
                 axios
                     .get(`${apiAddress}/wishlist?id=${route.query.id}`)
                     .then((res) => {
-                        console.log(res.data);
-
                         list.value = res.data;
                     })
-                    .catch((err) => console.error(err));
+                    .catch((err) =>
+                        store.dispatch(
+                            'notification',
+                            'Error loading wishlist: ' + err
+                        )
+                    );
             }
         });
 
