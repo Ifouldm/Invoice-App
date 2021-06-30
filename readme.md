@@ -20,17 +20,20 @@ This project was designed to provide experience creating a feature-rich applicat
 
 ## Run Application
 
-To run the application in development mode run the following from the root of the repo this will start the back-end and load the application in 'dev' mode.
-
-```sh
-npm run serve
-```
-
-To build for production run build process from client directory then run docker compose
+To run the application in development mode install the dependancies in the client, server and root of the repository and then run the serve command in root.
 
 ```sh
 cd invoice-client
-npm run build
+npm install
+cd ../invoice-server
+npm install
 cd ..
+npm install
+npm run serve
+```
+
+To build for production build and run the docker image using the following command:
+
+```sh
 docker-compose up
 ```
