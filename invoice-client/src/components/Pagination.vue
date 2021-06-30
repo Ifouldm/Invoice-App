@@ -2,7 +2,7 @@
     <div class="pagination">
         <button
             class="button"
-            :class="{ 'is-disabled': !hasPrev }"
+            :class="{ 'is-disabled': !hasPrev() }"
             @click="prev"
         >
             &lt;
@@ -18,7 +18,7 @@
         </button>
         <button
             class="button"
-            :class="{ 'is-disabled': !hasNext }"
+            :class="{ 'is-disabled': !hasNext() }"
             @click="next"
         >
             &gt;

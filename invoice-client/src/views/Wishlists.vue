@@ -38,10 +38,10 @@ import { defineComponent, onMounted, ref } from 'vue';
 
 import axios from 'axios';
 
+const apiAddress = '/api';
+
 export default defineComponent({
     setup() {
-        const apiAddress = process.env.VUE_APP_API_URL;
-
         type wishlistType = { wishlistName: string; qty: number };
         const wishlists = ref([] as Array<wishlistType>);
         const showErr = ref(false);

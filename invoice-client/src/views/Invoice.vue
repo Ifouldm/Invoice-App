@@ -100,7 +100,7 @@ import Status from '../components/Status.vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-const apiAddress = 'http://localhost:3000/api';
+const apiAddress = '/api';
 
 export default defineComponent({
     setup() {

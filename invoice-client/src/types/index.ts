@@ -12,13 +12,13 @@ export interface Invoice {
     invoiceNo: string;
     fromAddress: string;
     fromCity: string;
-    fromPostcode: string;
+    fromPostcode?: string | null;
     fromCountry: string;
     clientName: string;
     clientEmail: string;
     clientAddress: string;
     clientCity: string;
-    clientPostcode: string;
+    clientPostcode?: string | null;
     clientCountry: string;
     invoiceDate: string;
     paymentTerms: number;
@@ -39,17 +39,23 @@ export interface Wishlist {
     wishlistName: string;
 }
 
+function isCurrency(num: number | undefined) {
+    return num
+        ? num.toString().substring(num.toString().indexOf('.') + 1).length <= 2
+        : false;
+}
+
 export const invoiceSchema = yup.object({
     invoiceNo: yup.string().required().label('Invoice Number'),
     fromAddress: yup.string().required().label('From Address'),
     fromCity: yup.string().required().label('From City'),
-    fromPostcode: yup.string().required().label('From Postcode'),
+    fromPostcode: yup.string().nullable().label('From Postcode'),
     fromCountry: yup.string().required().label('From Country'),
     clientName: yup.string().required().label('Client Name'),
     clientEmail: yup.string().required().email().label('Client Email'),
     clientAddress: yup.string().required().label('Client Address'),
     clientCity: yup.string().required().label('Client City'),
-    clientPostcode: yup.string().required().label('Client Postcode'),
+    clientPostcode: yup.string().nullable().label('Client Postcode'),
     clientCountry: yup.string().required().label('Client Country'),
     invoiceDate: yup.string().required().label('Invoice Date'),
     paymentTerms: yup
@@ -65,7 +71,16 @@ export const invoiceSchema = yup.object({
                 .object({
                     itemName: yup.string().required().label('Item Name'),
                     quantity: yup.number().required().min(1).label('Quantity'),
-                    price: yup.number().required().min(0.01).label('Price'),
+                    price: yup
+                        .number()
+                        .required()
+                        .test(
+                            'currency',
+                            'Currency field must have a maximum of 2 decimal places',
+                            isCurrency
+                        )
+                        .min(0.01)
+                        .label('Price'),
                 })
                 .label('Item')
         )

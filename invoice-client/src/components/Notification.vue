@@ -57,12 +57,8 @@ export default defineComponent({
 }
 
 @keyframes disappear {
-    0% {
-        transform: scale(1, 1);
-    }
     100% {
         opacity: 0;
-        transform: scale(0, 0);
     }
 }
 </style>

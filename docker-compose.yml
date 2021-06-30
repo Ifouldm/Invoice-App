@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
     invoiceapp:
-        image: invoiceapp
+        image: ifouldm/invoiceapp:latest
         build:
             context: .
         environment:
@@ -28,3 +28,4 @@ networks:
 
 volumes:
     dbdata:
+    public:

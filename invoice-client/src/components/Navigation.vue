@@ -1,9 +1,9 @@
 <template>
     <div class="nav">
-        <router-link class="button" active-class="active" to="/">
+        <router-link class="button" active-class="is-primary" to="/">
             Invoices
         </router-link>
-        <router-link class="button" active-class="active" to="/about">
+        <router-link class="button" active-class="is-primary" to="/about">
             About
         </router-link>
     </div>
@@ -23,11 +23,13 @@ export default defineComponent({});
     border-radius: 0 2rem 2rem 0;
     background-color: var(--DarkBlue);
     z-index: 100;
+    @media screen and (max-width: 600px) {
+        flex-direction: row;
+        height: initial;
+        border-radius: 0 0 2rem 2rem;
+    }
     .button {
         margin: 1rem;
-    }
-    .active {
-        background-color: #4527be;
     }
 }
 </style>

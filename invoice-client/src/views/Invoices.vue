@@ -42,7 +42,7 @@ import { Invoice } from '../types';
 import Pagination from '../components/Pagination.vue';
 import { useStore } from 'vuex';
 
-const apiAddress = 'http://localhost:3000/api';
+const apiAddress = '/api';
 
 export default defineComponent({
     setup() {

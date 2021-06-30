@@ -1,6 +1,6 @@
 <template>
     <div class="NewInvoice">
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit" @change="validate()">
             <div class="section">
                 <div class="section-heading">Bill from</div>
                 <div class="form-row">
@@ -163,22 +163,38 @@
                             <input
                                 type="text"
                                 v-model.trim="itemRow.itemName"
-                                :class="errors.itemName ? 'error-field' : ''"
+                                :class="
+                                    errors['itemList[' + index + '].itemName']
+                                        ? 'error-field'
+                                        : ''
+                                "
                             />
                             <input
                                 type="number"
                                 v-model.number="itemRow.quantity"
-                                :class="errors.quantity ? 'error-field' : ''"
+                                :class="
+                                    errors['itemList[' + index + '].quantity']
+                                        ? 'error-field'
+                                        : ''
+                                "
                             />
                             <input
                                 type="text"
                                 v-model.number="itemRow.price"
-                                :class="errors.price ? 'error-field' : ''"
+                                :class="
+                                    errors['itemList[' + index + '].price']
+                                        ? 'error-field'
+                                        : ''
+                                "
                             />
                             <input
                                 type="text"
                                 readonly
-                                :value="itemRow.price * itemRow.quantity"
+                                :value="
+                                    (itemRow.price * itemRow.quantity).toFixed(
+                                        2
+                                    )
+                                "
                             />
                             <div class="delete-item" @click="delLine(index)">
                                 &#128465;
@@ -199,8 +215,11 @@
                     value="Save Changes"
                     :disabled="isSubmitting"
                 />
-                <a class="button" href="#" @click="validate">Validate</a>
-                <span v-if="isFormValid && isFormDirty">VALID</span>
+                <img
+                    class="valid"
+                    v-if="isFormValid && isFormDirty"
+                    src="../assets/tick.svg"
+                />
             </div>
         </form>
     </div>
@@ -219,10 +238,10 @@ import {
     useValidateForm,
 } from 'vee-validate';
 
-const apiAddress = 'http://localhost:3000/api';
-
 export default defineComponent({
     setup() {
+        const apiAddress = '/api';
+
         const router = useRouter();
         const route = useRoute();
         const store = useStore();
@@ -321,12 +340,13 @@ export default defineComponent({
                 axios
                     .post(`${apiAddress}/invoice`, form)
                     .then(() => router.push('/'))
-                    .catch((err) =>
+                    .catch((err) => {
+                        console.error(`${apiAddress}/invoice`);
                         store.dispatch(
                             'notification',
                             'Error inserting new invoice: ' + err
-                        )
-                    );
+                        );
+                    });
             }
         });
 
@@ -391,6 +411,10 @@ label {
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
+}
+
+.valid {
+    height: 3rem;
 }
 
 .section {
