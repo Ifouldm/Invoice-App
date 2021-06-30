@@ -115,8 +115,8 @@
                     <div class="form-field">
                         <label for="invoiceDate">Invoice Date</label>
                         <input
-                            @input="dateChange"
                             :value="dateFormat()"
+                            @change="dateChange"
                             type="date"
                         />
                         <span class="error">{{ errors.invoiceDate }}</span>
@@ -240,7 +240,7 @@ import {
 
 export default defineComponent({
     setup() {
-        const apiAddress = '/api';
+        const apiAddress = process.env.VUE_APP_API_URL || '/api';
 
         const router = useRouter();
         const route = useRoute();
@@ -310,7 +310,7 @@ export default defineComponent({
         });
 
         const dateFormat = function () {
-            const date = new Date();
+            const date = new Date(form.invoiceDate);
 
             const day = ('0' + date.getDate()).slice(-2);
             const month = ('0' + (date.getMonth() + 1)).slice(-2);

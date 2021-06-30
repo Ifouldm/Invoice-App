@@ -38,7 +38,7 @@ import { defineComponent, onMounted, ref } from 'vue';
 
 import axios from 'axios';
 
-const apiAddress = '/api';
+const apiAddress = process.env.VUE_APP_API_URL || '/api';
 
 export default defineComponent({
     setup() {

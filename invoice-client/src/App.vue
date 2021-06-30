@@ -2,7 +2,7 @@
     <div class="page-layout">
         <Navigation />
         <div class="main">
-            <router-view v-slot="{ Component }">
+            <router-view class="view" v-slot="{ Component }">
                 <transition :name="transitionName">
                     <component :is="Component" />
                 </transition>
@@ -62,6 +62,9 @@ export default defineComponent({
     align-items: center;
     width: 100%;
     max-width: 1200px;
+    .view {
+        width: 100%;
+    }
 }
 
 .slide-left-enter-active,

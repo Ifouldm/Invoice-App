@@ -3,6 +3,7 @@
         "serve": "concurrently \"nodemon invoice-server/bin/www\" \"cd invoice-client/; npm run serve\""
     },
     "devDependencies": {
+        "@types/node": "^15.12.5",
         "concurrently": "^6.1.0",
         "nodemon": "^2.0.7"
     }

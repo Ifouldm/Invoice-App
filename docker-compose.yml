@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
     invoiceapp:
-        image: ifouldm/invoiceapp:latest
+        image: ifouldm/invoice-app:latest
         build:
             context: .
         environment:

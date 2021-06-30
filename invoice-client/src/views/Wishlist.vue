@@ -56,7 +56,7 @@ import { Wishlist } from '../types';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-const apiAddress = '/api';
+const apiAddress = process.env.VUE_APP_API_URL || '/api';
 
 export default defineComponent({
     setup() {

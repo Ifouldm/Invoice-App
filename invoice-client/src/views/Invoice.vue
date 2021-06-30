@@ -100,7 +100,7 @@ import Status from '../components/Status.vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-const apiAddress = '/api';
+const apiAddress = process.env.VUE_APP_API_URL || '/api';
 
 export default defineComponent({
     setup() {
